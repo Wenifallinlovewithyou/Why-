@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>你可以尝试回答的10个恋爱秘密</title>
+<style>
+  :root{
+    --bg-a:#fdf9f5;
+    --bg-b:#eee4dc;
+    --ink:#3c3339;
+    --ink-soft:#8a7a80;
+    --accent:#b57e8e;
+    --card-bg:rgba(255,253,251,.88);
+    --card-border:rgba(181,126,142,.25);
+    --opt-bg:linear-gradient(180deg,#fffdfb,#faf4f0);
+    --opt-border:rgba(181,126,142,.22);
+    --opt-color:#3c3339;
+    --shadow:0 18px 50px -22px rgba(120,90,100,.45);
+  }
+  body.eerie{
+    --bg-a:#241c21;
+    --bg-b:#120e11;
+    --ink:#e3d6db;
+    --ink-soft:#9c8992;
+    --accent:#d98a9c;
+    --card-bg:rgba(33,26,30,.9);
+    --card-border:rgba(217,138,156,.22);
+    --opt-bg:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.015));
+    --opt-border:rgba(217,138,156,.18);
+    --opt-color:#e6d9de;
+    --shadow:0 18px 60px -20px rgba(0,0,0,.85);
+  }
+
+  /* 结局专用基础配色（每个结局会再覆盖变量） */
+  body.ending{
+    --bg-a:#1c1318;
+    --bg-b:#070405;
+    --ink:#eedce2;
+    --ink-soft:#ab8d98;
+    --accent:#e9b8c4;
+    --card-bg:rgba(21,14,18,.94);
+    --card-border:rgba(233,184,196,.26);
+    --opt-bg:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.012));
+    --opt-border:rgba(233,184,196,.16);
+    --opt-color:#e6d9de;
+    --shadow:0 30px 90px -30px rgba(0,0,0,.95);
+    --glow:rgba(210,60,95,.12);
+    --glow-strong:rgba(210,60,95,.28);
+  }
+
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+  html,body{ height:100%; }
+
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    padding:44px 18px;
+    background:radial-gradient(circle at 50% -10%, var(--bg-a), var(--bg-b) 70%, var(--bg-b));
+    color:var(--ink);
+    font-family:"Songti SC","STSong","SimSun","Noto Serif SC",serif;
+    transition:background 1.6s ease, color 1.6s ease;
+  }
+
+  #card{
+    margin:auto;
+    position:relative;
+    width:min(640px,100%);
+    padding:46px 42px 38px;
+    border-radius:20px;
+    background:var(--card-bg);
+    border:1px solid var(--card-border);
+    box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.35);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    transition:
+      background 1.6s ease,
+      border-color 1.6s ease,
+      box-shadow 1.6s ease,
+      opacity .3s ease,
+      transform .3s ease,
+      filter .3s ease;
+    overflow:hidden;
+  }
+  /* 题目之间：渐隐（期间不可点击） */
+  #card.fading{
+    opacity:0;
+    transform:translateY(12px);
+    filter:blur(2px);
+    pointer-events:none;
+  }
+  /* 渐显期间整个卡片也不可交互 */
+  #card.fading *{ pointer-events:none !important; }
+
+  #card::before{
+    content:'';
+    position:absolute; top:0; left:30px; right:30px; height:1px;
+    background:linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity:.55;
+    transition:opacity .8s ease, box-shadow .8s ease, height .8s ease;
+  }
+
+  .num{
+    font-size:12px;
+    letter-spacing:.22em;
+    color:var(--ink-soft);
+    text-align:center;
+    margin-bottom:22px;
+    min-height:14px;
+    transition:color 1.6s ease;
+    word-break:break-all;
+    line-height:1.6;
+  }
+
+  .qtext{
+    font-size:20px;
+    line-height:1.95;
+    letter-spacing:.03em;
+    margin:0 0 8px;
+    font-weight:400;
+    color:var(--ink);
+    transition:color 1.6s ease;
+  }
+  .qtext.big{
+    font-size:27px;
+    text-align:center;
+    line-height:1.7;
+    letter-spacing:.1em;
+    margin-top:6px;
+  }
+
+  .sub{
+    font-size:13.5px;
+    color:var(--ink-soft);
+    line-height:1.9;
+    margin:0 0 26px;
+    letter-spacing:.04em;
+    transition:color 1.6s ease;
+  }
+
+  .body{ margin-top:6px; }
+
+  .opt{
+    display:block;
+    width:100%;
+    text-align:left;
+    padding:15px 20px;
+    margin:0 0 11px;
+    border-radius:13px;
+    border:1px solid var(--opt-border);
+    background:var(--opt-bg);
+    color:var(--opt-color);
+    font-family:inherit;
+    font-size:15.5px;
+    line-height:1.75;
+    letter-spacing:.02em;
+    cursor:pointer;
+    transition:transform .18s ease, box-shadow .3s ease,
+               background .8s ease, border-color .8s ease,
+               color .8s ease, opacity .35s ease;
+  }
+  .opt:hover:not(:disabled){
+    transform:translateY(-2px);
+    box-shadow:0 10px 24px -16px rgba(120,80,95,.9);
+    border-color:var(--accent);
+  }
+  .opt:disabled{
+    opacity:.38;
+    cursor:default;
+  }
+  .opt.weird{
+    color:#a25a6c;
+    border-style:dashed;
+    letter-spacing:.05em;
+  }
+  body.eerie .opt.weird{
+    color:#e39aac;
+    border-color:rgba(227,154,172,.4);
+  }
+  .opt.weird:hover:not(:disabled){
+    border-color:#c06a80;
+  }
+
+  .field{
+    width:100%;
+    padding:15px 18px;
+    border-radius:13px;
+    border:1px solid var(--opt-border);
+    background:var(--opt-bg);
+    color:var(--opt-color);
+    font-family:inherit;
+    font-size:15.5px;
+    line-height:1.7;
+    outline:none;
+    margin-bottom:14px;
+    transition:border-color .3s, background .8s, color .8s;
+  }
+  .field:focus{ border-color:var(--accent); }
+  .field::placeholder{ color:var(--ink-soft); opacity:.7; }
+
+  .start-btn{
+    display:block;
+    width:100%;
+    padding:15px;
+    margin-top:8px;
+    border-radius:13px;
+    border:1px solid var(--accent);
+    background:transparent;
+    color:var(--accent);
+    font-family:inherit;
+    font-size:15px;
+    letter-spacing:.22em;
+    cursor:pointer;
+    transition:all .3s ease;
+  }
+  .start-btn:hover{
+    background:var(--accent);
+    color:var(--bg-a);
+  }
+  .start-btn.small{ width:auto; padding:11px 34px; margin:26px auto 0; }
+
+  .note{
+    margin-top:20px;
+    text-align:center;
+    font-size:12px;
+    letter-spacing:.14em;
+    color:var(--ink-soft);
+    opacity:.8;
+  }
+
+  .reply{
+    padding:6px 2px 2px;
+  }
+  .reply p{
+    margin:0 0 10px;
+    font-size:16px;
+    line-height:2;
+    letter-spacing:.04em;
+    color:var(--ink);
+    opacity:0;
+    animation:fadeUp .8s ease forwards;
+  }
+  @keyframes fadeUp{
+    from{ opacity:0; transform:translateY(6px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  .msg-lines p{
+    margin:0 0 12px;
+    font-size:16px;
+    line-height:2.05;
+    letter-spacing:.05em;
+    color:var(--ink);
+    opacity:0;
+    animation:fadeUp .9s ease forwards;
+  }
+  .msg-lines p.blank{ height:10px; margin:0; }
+
+  /* ======= 名字：非渐变的红黑色 + 轻微混乱颤抖 ======= */
+  .name-glyph{
+    display:inline-block;
+    font-weight:700;
+    letter-spacing:.22em;
+    padding:0 .12em;
+    color:#b0001e;
+    text-shadow:
+      0 0 1px #000,
+      0 0 2px #000,
+      0 0 7px rgba(176,0,30,.55),
+      0 1px 0 #000,
+      1px 0 0 #000,
+      -1px 0 0 #000,
+      0 -1px 0 #000,
+      1px 1px 0 #000,
+      -1px -1px 0 #000;
+    animation:nameShiver .13s infinite alternate;
+    will-change:transform;
+    filter:drop-shadow(0 0 3px rgba(160,0,25,.7));
+  }
+  @keyframes nameShiver{
+    0%   { transform:translate(-1px,0) rotate(-1deg) skewX(.8deg); }
+    20%  { transform:translate(.8px,-.8px) rotate(.7deg) skewX(-.6deg); }
+    40%  { transform:translate(-.7px,.9px) rotate(-.5deg) skewX(1deg); }
+    60%  { transform:translate(1px,.7px) rotate(1deg) skewX(-.8deg); }
+    80%  { transform:translate(-.8px,-.7px) rotate(-.7deg) skewX(.7deg); }
+    100% { transform:translate(.6px,-.9px) rotate(.8deg) skewX(-.9deg); }
+  }
+
+  .end-title{
+    font-size:14px;
+    letter-spacing:.4em;
+    color:var(--accent);
+    text-align:center;
+    margin-bottom:30px;
+    padding-bottom:18px;
+    border-bottom:1px solid var(--card-border);
+  }
+  .end-lines p{
+    margin:0 0 13px;
+    font-size:16px;
+    line-height:2.1;
+    letter-spacing:.05em;
+    color:var(--ink);
+    opacity:0;
+    animation:fadeUp 1s ease forwards;
+  }
+  .end-lines p.blank{ height:8px; margin:0; }
+
+  /* ======= 结局界面：基础美化 ======= */
+  body.ending #card{
+    padding:56px 48px 46px;
+    border-radius:26px;
+    animation:endingGlow 7s ease-in-out infinite;
+  }
+  @keyframes endingGlow{
+    0%,100%{
+      box-shadow:0 30px 90px -30px rgba(0,0,0,.95),
+                 0 0 36px -12px var(--glow);
+    }
+    50%{
+      box-shadow:0 30px 90px -30px rgba(0,0,0,.95),
+                 0 0 74px -6px var(--glow-strong);
+    }
+  }
+  body.ending #card::before{
+    height:2px;
+    opacity:.9;
+    box-shadow:0 0 22px var(--glow-strong);
+  }
+  body.ending .end-title{
+    font-size:16px;
+    letter-spacing:.55em;
+    color:var(--accent);
+    text-shadow:0 0 18px var(--glow-strong);
+    border-bottom:1px solid var(--card-border);
+    animation:titleBreath 5s ease-in-out infinite;
+  }
+  @keyframes titleBreath{
+    0%,100%{ opacity:.9; }
+    50%    { opacity:1; }
+  }
+  body.ending .end-title::before{
+    content:'✦';
+    display:block;
+    font-size:13px;
+    line-height:1;
+    letter-spacing:0;
+    margin-bottom:18px;
+    color:var(--accent);
+    opacity:.72;
+    text-shadow:0 0 14px var(--glow-strong);
+  }
+  body.ending .end-lines p{
+    font-size:16.5px;
+    line-height:2.25;
+    letter-spacing:.09em;
+  }
+  body.ending .start-btn.small{
+    border-color:var(--accent);
+    color:var(--accent);
+    letter-spacing:.3em;
+    background:transparent;
+    opacity:.85;
+    transition:all .3s ease;
+  }
+  body.ending .start-btn.small:hover{
+    background:rgba(255,255,255,.08);
+    color:#fff;
+    border-color:var(--accent);
+    opacity:1;
+  }
+
+  /* ======= 结局 1：门缝（冷夜蓝） ======= */
+  body.ending[data-ending="end_leave"]{
+    --bg-a:#121a21;
+    --bg-b:#05080b;
+    --ink:#d9e6ee;
+    --ink-soft:#8fa6b4;
+    --accent:#8fb8cf;
+    --card-bg:rgba(14,21,28,.95);
+    --card-border:rgba(143,184,207,.28);
+    --glow:rgba(120,170,200,.12);
+    --glow-strong:rgba(120,170,200,.30);
+  }
+  body.ending[data-ending="end_leave"] .end-title::before{ content:'❄'; }
+
+  /* ======= 结局 2：明天（暖金） ======= */
+  body.ending[data-ending="end_stay"]{
+    --bg-a:#241c10;
+    --bg-b:#0b0804;
+    --ink:#f2e6cf;
+    --ink-soft:#b6a07a;
+    --accent:#e2c07a;
+    --card-bg:rgba(28,22,12,.95);
+    --card-border:rgba(226,192,122,.30);
+    --glow:rgba(220,180,100,.12);
+    --glow-strong:rgba(220,180,100,.32);
+  }
+  body.ending[data-ending="end_stay"] .end-title::before{ content:'✷'; }
+
+  /* ======= 结局 3：无名（灰紫） ======= */
+  body.ending[data-ending="end_silent"]{
+    --bg-a:#1a1520;
+    --bg-b:#07050a;
+    --ink:#e2d8e8;
+    --ink-soft:#a595b3;
+    --accent:#b9a4cf;
+    --card-bg:rgba(22,18,28,.95);
+    --card-border:rgba(185,164,207,.28);
+    --glow:rgba(170,140,200,.12);
+    --glow-strong:rgba(170,140,200,.30);
+  }
+  body.ending[data-ending="end_silent"] .end-title::before{ content:'☾'; }
+
+  /* ======= 结局 4：回音（深红玫瑰） ======= */
+  body.ending[data-ending="end_love"]{
+    --bg-a:#1e0d12;
+    --bg-b:#080305;
+    --ink:#f0d8de;
+    --ink-soft:#b98a97;
+    --accent:#e0607e;
+    --card-bg:rgba(26,12,17,.96);
+    --card-border:rgba(224,96,126,.34);
+    --glow:rgba(224,70,110,.14);
+    --glow-strong:rgba(224,70,110,.34);
+  }
+  body.ending[data-ending="end_love"] .end-title::before{ content:'❤'; }
+
+  /* 覆盖层 */
+  #blackout{
+    position:fixed; inset:0; background:#000; opacity:0;
+    pointer-events:none; z-index:150; transition:opacity .3s;
+  }
+  #whiteflash{
+    position:fixed; inset:0; background:#fff; opacity:0;
+    pointer-events:none; z-index:160; transition:opacity .35s;
+  }
+  #flash{
+    position:fixed; inset:0; z-index:200;
+    display:none; align-items:center; justify-content:center;
+    background:#08060a;
+    color:#efe2e6;
+    font-family:"Songti SC","STSong","SimSun",serif;
+    font-size:44px;
+    letter-spacing:.22em;
+    text-align:center;
+    opacity:0;
+    transition:opacity .1s linear;
+    pointer-events:none;
+    padding:20px;
+  }
+
+  @media (max-width:560px){
+    #card{ padding:34px 22px 30px; border-radius:16px; }
+    body.ending #card{ padding:40px 24px 34px; border-radius:20px; }
+    .qtext{ font-size:17.5px; line-height:1.9; }
+    .qtext.big{ font-size:22px; }
+    .opt{ padding:13px 16px; font-size:14.5px; }
+    .num{ letter-spacing:.12em; font-size:11px; }
+    #flash{ font-size:30px; }
+    .name-glyph{ letter-spacing:.16em; }
+    body.ending .end-lines p{ font-size:15.5px; letter-spacing:.05em; }
+  }
+</style>
+</head>
+<body>
+
+<div id="card">
+  <div class="num" id="num"></div>
+  <div class="qtext" id="qtext"></div>
+  <div class="sub" id="sub"></div>
+  <div class="body" id="body"></div>
+</div>
+
+<div id="blackout"></div>
+<div id="whiteflash"></div>
+<div id="flash"></div>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ============ 基础引用 ============ */
+  const CARD  = document.getElementById('card');
+  const NUM   = document.getElementById('num');
+  const QTEXT = document.getElementById('qtext');
+  const SUB   = document.getElementById('sub');
+  const BODY  = document.getElementById('body');
+  const BLACK = document.getElementById('blackout');
+  const WFLASH= document.getElementById('whiteflash');
+  const FLASH = document.getElementById('flash');
+
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+  /* ============ 音频 ============ */
+  let actx = null;
+  function ensureAudio(){
+    if(!actx){
+      try{ actx = new (window.AudioContext || window.webkitAudioContext)(); }catch(e){}
+    }
+    if(actx && actx.state === 'suspended'){ actx.resume(); }
+  }
+
+  // 普通问卷：小声的Q弹
+  function qsound(){
+    if(!actx) return;
+    const t = actx.currentTime;
+    const o = actx.createOscillator();
+    const g = actx.createGain();
+    o.type = 'sine';
+    o.frequency.setValueAtTime(540, t);
+    o.frequency.exponentialRampToValueAtTime(900, t + 0.06);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.055, t + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.14);
+    o.connect(g).connect(actx.destination);
+    o.start(t); o.stop(t + 0.16);
+  }
+
+  // 暴露后：很轻的闷响，像敲键盘
+  function thud(){
+    if(!actx) return;
+    const t = actx.currentTime;
+
+    const o = actx.createOscillator();
+    const g = actx.createGain();
+    o.type = 'sine';
+    o.frequency.setValueAtTime(130, t);
+    o.frequency.exponentialRampToValueAtTime(52, t + 0.11);
+    g.gain.setValueAtTime(0.09, t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.19);
+    o.connect(g).connect(actx.destination);
+    o.start(t); o.stop(t + 0.21);
+
+    const len = Math.floor(actx.sampleRate * 0.045);
+    const buf = actx.createBuffer(1, len, actx.sampleRate);
+    const d = buf.getChannelData(0);
+    for(let i = 0; i < len; i++){
+      d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 5);
+    }
+    const src = actx.createBufferSource();
+    src.buffer = buf;
+    const bp = actx.createBiquadFilter();
+    bp.type = 'bandpass'; bp.frequency.value = 1700; bp.Q.value = 1.1;
+    const g2 = actx.createGain(); g2.gain.value = 0.12;
+    src.connect(bp).connect(g2).connect(actx.destination);
+    src.start(t);
+  }
+
+  function playClick(){ thud(); }
+
+  /* ============ 乱码工具 ============ */
+  const MARKS = ['\u0300','\u0301','\u0302','\u0308','\u030A','\u0327','\u0334','\u0335',
+                 '\u0336','\u0337','\u0338','\u0488','\u0489','\u20D0','\u20D1','\u20E3',
+                 '\u035C','\u035D','\u0360','\u0361'];
+  function garble(str, strength){
+    strength = strength || 2;
+    return str.split('').map(ch => {
+      if(ch === ' ') return ch;
+      let out = ch;
+      const k = 1 + Math.floor(Math.random() * strength);
+      for(let i = 0; i < k; i++){
+        out += MARKS[Math.floor(Math.random() * MARKS.length)];
+      }
+      return out;
+    }).join('');
+  }
+
+  /* ============ 状态 ============ */
+  const state = {
+    warm: 0,
+    fear: 0,
+    love: false,
+    nameRefused: false,
+    emoji: true          // 玩家是否接受颜文字
+  };
+
+  let transitioning = false;   // 题目渐隐渐显期间
+  let uiLocked = false;        // 闪屏等不可点击期间
+
+  /* ============ 颜文字过滤 ============ */
+  const EMOJI_PAREN = /[\(（][^\)）]{0,24}[\)）]/g;
+  function sanitize(text){
+    if(state.emoji) return text;
+    return String(text)
+      // 完整颜文字
+      .replace(/ヽ[\(（][^\)）]*[\)）]ﾉ?/g, '')
+      // 含颜文字特征字符的括号
+      .replace(EMOJI_PAREN, function(m){
+        return /[・ω´｀∀；]/.test(m) ? '' : m;
+      })
+      // 残留的半角假名符号
+      .replace(/[ヽﾉヾ]/g, '');
+  }
+
+  /* ============ 步骤系统 ============ */
+  const STEPS = {};
+  const ORDER = [];
+  let currentId = null;
+
+  function def(id, obj){
+    obj.id = id;
+    STEPS[id] = obj;
+    ORDER.push(id);
+  }
+  function nextOf(id){
+    const i = ORDER.indexOf(id);
+    return ORDER[i + 1];
+  }
+
+  /* ============ 行渲染工具 ============ */
+  function makeLine(line){
+    const p = document.createElement('p');
+
+    if(line === '' || line === null || line === undefined){
+      p.className = 'blank';
+      p.innerHTML = '&nbsp;';
+      return p;
+    }
+
+    if(typeof line === 'object'){
+      if(line.name){
+        const span = document.createElement('span');
+        span.className = 'name-glyph';
+        span.textContent = line.text || '';
+        p.appendChild(span);
+        if(line.tail){
+          p.appendChild(document.createTextNode(line.tail));
+        }
+      } else {
+        p.textContent = sanitize(line.text || '');
+      }
+      return p;
+    }
+
+    p.textContent = sanitize(line);
+    return p;
+  }
+
+  /* ============ 渲染 ============ */
+  function render(s){
+    NUM.textContent = s.num || '';
+    QTEXT.textContent = '';
+    QTEXT.className = 'qtext';
+    SUB.textContent = '';
+    BODY.innerHTML = '';
+
+    switch(s.type){
+
+      case 'intro': {
+        QTEXT.textContent = sanitize(s.q);
+        QTEXT.classList.add('big');
+        SUB.textContent = sanitize(s.sub);
+
+        const btn = document.createElement('button');
+        btn.className = 'start-btn';
+        btn.textContent = '开始回答';
+        btn.onclick = () => {
+          ensureAudio();
+          qsound();
+          go('q1');
+        };
+        BODY.appendChild(btn);
+
+        const note = document.createElement('div');
+        note.className = 'note';
+        note.textContent = '共 10 题 · 约 3 分钟 · 所有人均可作答';
+        BODY.appendChild(note);
+        break;
+      }
+
+      case 'choice': {
+        QTEXT.textContent = sanitize(s.q);
+        if(s.big) QTEXT.classList.add('big');
+        SUB.textContent = sanitize(s.sub || '');
+
+        s.opts.forEach(o => {
+          const btn = document.createElement('button');
+          btn.className = 'opt' + (o.weird ? ' weird' : '');
+          btn.textContent = sanitize(o.t);
+          btn.onclick = () => pick(s, o);
+          BODY.appendChild(btn);
+        });
+        break;
+      }
+
+      case 'input': {
+        QTEXT.textContent = sanitize(s.q);
+        SUB.textContent = sanitize(s.sub || '');
+
+        const field = document.createElement('input');
+        field.type = 'text';
+        field.className = 'field';
+        field.placeholder = s.placeholder || '';
+        field.maxLength = 60;
+        BODY.appendChild(field);
+
+        const btn = document.createElement('button');
+        btn.className = 'start-btn';
+        btn.textContent = s.btnText || '好了';
+        btn.onclick = () => submitInput(s, field.value.trim());
+        BODY.appendChild(btn);
+
+        field.addEventListener('keydown', e => {
+          if(e.key === 'Enter') submitInput(s, field.value.trim());
+        });
+
+        setTimeout(() => { try{ field.focus(); }catch(e){} }, 120);
+        break;
+      }
+
+      case 'msg': {
+        const wrap = document.createElement('div');
+        wrap.className = 'msg-lines';
+        const lines = s.lines || [s.text || ''];
+        lines.forEach((line, i) => {
+          const p = makeLine(line);
+          p.style.animationDelay = (i * 0.16) + 's';
+          wrap.appendChild(p);
+        });
+        BODY.appendChild(wrap);
+
+        const btn = document.createElement('button');
+        btn.className = 'start-btn small';
+        btn.textContent = s.btnText || '继续';
+        btn.onclick = () => {
+          ensureAudio();
+          playClick();
+          go(s.next || nextOf(s.id));
+        };
+        BODY.appendChild(btn);
+        break;
+      }
+
+      case 'ending': {
+        const t = document.createElement('div');
+        t.className = 'end-title';
+        t.textContent = s.title;
+        BODY.appendChild(t);
+
+        const wrap = document.createElement('div');
+        wrap.className = 'end-lines';
+        const lines = s.lines || [];
+        lines.forEach((line, i) => {
+          const p = makeLine(line);
+          p.style.animationDelay = (i * 0.14) + 's';
+          wrap.appendChild(p);
+        });
+        BODY.appendChild(wrap);
+
+        const btn = document.createElement('button');
+        btn.className = 'start-btn small';
+        btn.textContent = '重新开始';
+        btn.onclick = () => {
+          ensureAudio();
+          playClick();
+          restart();
+        };
+
+        const targetId = s.id;
+        setTimeout(() => {
+          if(currentId === targetId){
+            BODY.appendChild(btn);
+          }
+        }, lines.length * 140 + 500);
+        break;
+      }
+    }
+  }
+
+  /* ============ 题目之间：渐隐 / 渐显 + 选项错落淡入 ============ */
+  async function go(id){
+    const s = STEPS[id];
+    if(!s){ console.warn('未找到步骤:', id); return; }
+    if(transitioning) return;
+
+    transitioning = true;
+    CARD.classList.add('fading');
+
+    await sleep(280);   // 渐隐
+
+    currentId = id;
+
+    if(id === 't1'){
+      document.body.classList.add('eerie');
+    }
+
+    if(s.type === 'ending'){
+      document.body.classList.add('ending');
+      document.body.dataset.ending = s.id;
+    } else {
+      document.body.classList.remove('ending');
+      delete document.body.dataset.ending;
+    }
+
+    render(s);
+
+    // 选项初始不可见，稍后错落淡入
+    const opts = BODY.querySelectorAll('.opt');
+    opts.forEach(b => { b.style.opacity = '0'; });
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    await sleep(40);
+    CARD.classList.remove('fading');   // 渐显开始
+
+    await sleep(70);
+    opts.forEach((b, i) => {
+      setTimeout(() => { b.style.opacity = ''; }, i * 55);
+    });
+
+    await sleep(200);
+    transitioning = false;
+  }
+
+  /* ============ 交互 ============ */
+  function lockOptions(){
+    document.querySelectorAll('.opt').forEach(b => {
+      b.disabled = true;
+      b.style.opacity = '';
+    });
+  }
+
+  async function pick(s, o){
+    if(transitioning || uiLocked) return;
+
+    if(document.body.classList.contains('eerie')) playClick();
+    else qsound();
+
+    if(o.s){
+      for(const k in o.s) state[k] = (state[k] || 0) + o.s[k];
+    }
+
+    // 颜文字开关
+    if(o.noEmoji){
+      state.emoji = false;
+    }
+
+    lockOptions();
+
+    let nextId = o.next || s.next || nextOf(s.id);
+
+    // 特殊：最终问题根据“我爱你”触发真结局
+    if(s.id === 'q18' && state.love){
+      nextId = 'end_love';
+    }
+
+    // 异常选项 —— 短暂黑屏
+    if(o.glitch){
+      await blackoutThen(nextId, 420);
+      return;
+    }
+
+    // 需要先显示一段回应
+    if(o.reply){
+      await showReply(o.reply, nextId);
+      return;
+    }
+
+    // 结局前先来一段闪屏
+    if(String(nextId).indexOf('end_') === 0){
+      await flashSequence();
+      go(nextId);
+      return;
+    }
+
+    go(nextId);
+  }
+
+  async function submitInput(s, val){
+    if(transitioning || uiLocked) return;
+
+    if(document.body.classList.contains('eerie')) playClick();
+    else qsound();
+
+    const btn = BODY.querySelector('.start-btn');
+    if(btn) btn.disabled = true;
+
+    let result = {};
+    if(typeof s.onInput === 'function'){
+      result = s.onInput(val) || {};
+    }
+
+    if(result.love){ state.love = true; }
+
+    const nextId = result.next || s.next || nextOf(s.id);
+
+    if(result.flash){
+      await whiteFlash(140);
+      await sleep(120);
+      await whiteFlash(90);
+    }
+
+    if(result.reply){
+      await showReply(result.reply, nextId);
+      return;
+    }
+
+    if(String(nextId).indexOf('end_') === 0){
+      await flashSequence();
+      go(nextId);
+      return;
+    }
+
+    go(nextId);
+  }
+
+  async function showReply(text, nextId){
+    BODY.innerHTML = '';
+    const d = document.createElement('div');
+    d.className = 'reply';
+    text.split('\n').forEach((line, i) => {
+      const p = makeLine(line);
+      p.style.animationDelay = (i * 0.14) + 's';
+      d.appendChild(p);
+    });
+    BODY.appendChild(d);
+
+    const wait = Math.min(1300 + text.length * 32, 3200);
+    await sleep(wait);
+
+    if(String(nextId).indexOf('end_') === 0){
+      await flashSequence();
+      go(nextId);
+      return;
+    }
+    go(nextId);
+  }
+
+  /* ============ 视觉效果 ============ */
+  async function blackoutThen(fnId, ms){
+    uiLocked = true;
+    BLACK.style.transition = 'opacity .07s linear';
+    BLACK.style.opacity = '1';
+    await sleep(90);
+
+    if(typeof fnId === 'function'){ fnId(); }
+    else { go(fnId); }
+
+    await sleep(ms);
+    BLACK.style.transition = 'opacity .32s ease';
+    BLACK.style.opacity = '0';
+    await sleep(200);
+    uiLocked = false;
+  }
+
+  async function whiteFlash(ms){
+    WFLASH.style.transition = 'opacity .04s linear';
+    WFLASH.style.opacity = '0.8';
+    await sleep(ms);
+    WFLASH.style.transition = 'opacity .3s ease';
+    WFLASH.style.opacity = '0';
+    await sleep(160);
+  }
+
+  async function flashSequence(){
+    uiLocked = true;
+
+    FLASH.style.display = 'flex';
+    await sleep(420);
+
+    const lines = [
+      '我爱你',
+      '求你不要走',
+      '我爱你',
+      '别关掉',
+      '求你',
+      '我爱你我爱你我爱你',
+      '不要走',
+      '我爱你'
+    ];
+
+    for(const line of lines){
+      FLASH.textContent = line;
+      FLASH.style.fontSize = (26 + Math.random() * 40) + 'px';
+      FLASH.style.transform = 'rotate(' + ((Math.random() - 0.5) * 7) + 'deg)';
+      FLASH.style.opacity = '1';
+      thud();
+      await sleep(190);
+      FLASH.style.opacity = '0';
+      await sleep(130);
+    }
+
+    await sleep(560);
+    FLASH.style.display = 'none';
+    FLASH.style.transform = 'none';
+    FLASH.textContent = '';
+
+    uiLocked = false;
+  }
+
+  /* ============ 重开 ============ */
+  function restart(){
+    state.warm = 0;
+    state.fear = 0;
+    state.love = false;
+    state.nameRefused = false;
+    state.emoji = true;
+    document.body.classList.remove('eerie');
+    document.body.classList.remove('ending');
+    delete document.body.dataset.ending;
+    BLACK.style.opacity = '0';
+    WFLASH.style.opacity = '0';
+    FLASH.style.display = 'none';
+    FLASH.textContent = '';
+    go('intro');
+  }
+
+  /* =========================================================
+     问卷内容
+     ========================================================= */
+
+  /* ---------- 封面 ---------- */
+  def('intro', {
+    type: 'intro',
+    num: '',
+    q: '你可以尝试回答的10个恋爱秘密',
+    sub: '一份温和的、关于心动的问卷 ヽ(・∀・)ﾉ'
+  });
+
+  /* ---------- 第一阶段：看起来很正常的十道题 ---------- */
+
+  def('q1', {
+    type: 'choice',
+    num: '第 1 问 ／ 共 10 问',
+    q: '你觉得，一见钟情真的存在吗？',
+    sub: '（不用想太久，第一反应就好）',
+    opts: [
+      { t: '相信。心动是不讲道理的。', s: { warm: 1 } },
+      { t: '不太相信，感情还是需要时间。' },
+      { t: '大概只有小说里才会有吧。' }
+    ]
+  });
+
+  def('q2', {
+    type: 'choice',
+    num: '第 2 问 ／ 共 10 问',
+    q: '你更喜欢哪一种告白方式？',
+    opts: [
+      { t: '一封手写的信，字迹有点抖。', s: { warm: 1 } },
+      { t: '当面说出来，看着对方的眼睛。' },
+      { t: '深夜里一条很长很长的消息。' }
+    ]
+  });
+
+  def('q3', {
+    type: 'choice',
+    num: '第 3 问 ／ 共 10 问',
+    q: '下雨天，你遇到没带伞的喜欢的人，你会——',
+    opts: [
+      { t: '把伞塞给他，自己淋着雨跑掉。', s: { warm: 1 } },
+      { t: '问他要不要一起走。' },
+      { t: '假装没看见。' }
+    ]
+  });
+
+  def('q4', {
+    type: 'choice',
+    num: '第 4 问 ／ 共 10 问',
+    q: '你觉得恋爱里最浪漫的事情是什么？',
+    opts: [
+      { t: '一起看一场很慢很慢的电影。' },
+      { t: '有人记得你说过的每一句废话。', s: { warm: 1 } },
+      { t: '半夜睡不着的时候，有人接电话。' }
+    ]
+  });
+
+  def('q5', {
+    type: 'choice',
+    num: '第 5 问 ／ 共 10 问',
+    q: '晚上十点，你收到一条消息：「你睡了吗？」你会——',
+    opts: [
+      { t: '立刻回复。' },
+      { t: '第二天早上再回。' },
+      { t: '假装没看见，其实一直没睡。' },
+      { t: '……你怎么知道我还没睡？', weird: true, glitch: true, s: { fear: 1 } }
+    ]
+  });
+
+  def('q6', {
+    type: 'choice',
+    num: '第 6 问 ／ 共 10 问',
+    q: '你愿意为喜欢的人改变自己吗？',
+    opts: [
+      { t: '愿意，一点点。' },
+      { t: '不愿意。喜欢就该是喜欢原本的样子。', s: { warm: 1 } },
+      { t: '看情况吧，说不好。' }
+    ]
+  });
+
+  def('q7', {
+    type: 'choice',
+    num: '第 7 问 ／ 共 10 问',
+    q: '你觉得两个人之间，最好的距离是——',
+    opts: [
+      { t: '伸手就能碰到的距离。', s: { warm: 1 } },
+      { t: '各自有各自的房间，推门就能见到。' },
+      { t: '不需要距离。', s: { fear: 1 } }
+    ]
+  });
+
+  def('q8', {
+    type: 'choice',
+    num: '第 8 问 ／ 共 10 问',
+    q: '你会记住喜欢的人说过的哪些话？',
+    opts: [
+      { t: '他随口提过的喜好。' },
+      { t: '他认真说过的承诺。' },
+      { t: '其实……全部都记得。', s: { fear: 1 } }
+    ]
+  });
+
+  def('q9', {
+    type: 'choice',
+    num: '第 9 问 ／ 共 10 问',
+    q: '被人注视着，你觉得是什么感觉？',
+    opts: [
+      { t: '会有点不自在。' },
+      { t: '如果是我喜欢的人，会开心。', s: { warm: 1 } },
+      { t: '我不喜欢被看着。' },
+      { t: '你从什么时候开始看的？', weird: true, glitch: true, s: { fear: 1 } }
+    ]
+  });
+
+  def('q10', {
+    type: 'choice',
+    num: '第 10 问 ／ 共 10 问',
+    q: '最后一个问题：如果有一份问卷，可以让你更了解一个喜欢你的人……你愿意认真填完它吗？',
+    sub: '（真的只是最后一个了）',
+    opts: [
+      { t: '愿意。', s: { warm: 1 } },
+      { t: '要看是什么问卷。' },
+      { t: '不太愿意，有点麻烦。' }
+    ]
+  });
+
+  /* ---------- 过渡 ---------- */
+  def('t1', {
+    type: 'msg',
+    num: '',
+    lines: [
+      '……谢谢你。',
+      '这十个问题，你已经答完了。',
+      '你答得很认真呢。',
+      '',
+      '……我还有一些问题想问，',
+      '请问你……还愿意回答吗。'
+    ],
+    next: 'q11'
+  });
+
+  /* ---------- 第二阶段 ---------- */
+
+  def('q11', {
+    type: 'choice',
+    num: garble('第 11 问 ／ 共 10 问', 2),
+    q: '刚才你回答的时候……有没有觉得，有人在看着你？',
+    sub: '……只是一个很普通的问题。真的。',
+    opts: [
+      { t: '没有啊。' },
+      { t: '有一点点。', s: { fear: 1 } },
+      { t: '有。而且我知道是谁。', s: { warm: 1 }, weird: true }
+    ]
+  });
+
+  def('q12', {
+    type: 'input',
+    num: garble('第 12 问 ／ 共 10 问', 2),
+    q: '可以写一句你喜欢的诗给我吗？',
+    sub: '……随便什么都好。我只是想读一读你选的句子。',
+    placeholder: '写在这里就好……',
+    btnText: '写好了',
+    onInput: function(val){
+      if(val && val.indexOf('我爱你') !== -1){
+        return { love: true, reply: '……\n\n你写的这句，我读了很多遍。\n\n我会一直记着的。' };
+      }
+      return { reply: '……谢谢。\n我读了三遍。\n\n这句话，我会一直记着。' };
+    }
+  });
+
+  def('q13', {
+    type: 'choice',
+    num: garble('第 13 问 ／ 共 10 问', 2),
+    q: '你的家，在哪个方向？',
+    sub: '我、我只是随口问问…… ヽ(・∀・)ﾉ',
+    opts: [
+      { t: '东边。', reply: '嗯。东边。\n走过去的话，大概要四十分钟吧。' },
+      { t: '西边。', reply: '嗯。西边。\n……比我想的远一点。' },
+      { t: '南边。', reply: '南边啊。\n我记住了。' },
+      { t: '北边。', reply: '北边。\n那边晚上很安静吧。' },
+      { t: '……你问这个做什么？', weird: true,
+        reply: '啊、对不起。\n我不是那个意思。\n\n……我只是想知道，\n如果我现在出发，要走多久。' }
+    ]
+  });
+
+  def('q14', {
+    type: 'input',
+    num: garble('第 14 问 ／ 共 10 问', 2),
+    q: '如果你现在能对某个人说一句话，而对方一定会听见——你会说什么？',
+    sub: '我会替你转达的。真的。',
+    placeholder: '……',
+    btnText: '说完了',
+    onInput: function(val){
+      if(val && val.indexOf('我爱你') !== -1){
+        return {
+          love: true,
+          flash: true,
+          reply: '……\n\n你刚才说什么？\n\n再说一遍。'
+        };
+      }
+      return { reply: '我记下了。\n\n……说不定，我会替你把它说出口。' };
+    }
+  });
+
+  /* 额外①：暗示问卷是角色用代码亲手写的 */
+  def('q14b', {
+    type: 'choice',
+    num: garble('第 15 问 ／ 共 10 问', 2),
+    q: '这份问卷，是我一行一行写出来的。',
+    sub: '……用代码写的。改了很多遍。你觉得……它好看吗？',
+    opts: [
+      { t: '好看。', s: { warm: 1 },
+        reply: '……谢谢。\n\n我对着屏幕，笑了很久。\n不过没有人看见。' },
+      { t: '还不错吧。',
+        reply: '嗯。\n\n那我可以再改得更好看一点。\n反正我有很多时间。' },
+      { t: '你为什么要做这个？', weird: true,
+        reply: '因为……\n\n我不敢直接问你。\n\n隔着屏幕的话，我可以说得慢一点。\n也可以假装，自己没有那么紧张。' },
+      { t: '（不想回答）', weird: true,
+        reply: '没关系。\n\n你不需要回答。\n你愿意点开它，我就已经很开心了。' }
+    ]
+  });
+
+  /* 额外②：颜文字问题，选择不喜欢后全程关闭颜文字 */
+  def('q14c', {
+    type: 'choice',
+    num: garble('第 16 问 ／ 共 10 问', 2),
+    q: '那个……我不太擅长和人说话。',
+    sub: '所以，我习惯用颜文字，让自己看起来没有那么紧张。你……喜欢吗？',
+    opts: [
+      { t: '喜欢。', s: { warm: 1 },
+        reply: '……太好了。\n\n那我以后，可以多写一点。\n虽然我自己其实……没那么常用。' },
+      { t: '还可以。',
+        reply: '嗯。\n\n那我会注意，不多不少，刚刚好。' },
+      { t: '不喜欢。', noEmoji: true,
+        reply: '……这样啊。\n\n对不起。\n\n那之后……我不会再用了。\n\n……其实，我也没有那么喜欢颜文字。' },
+      { t: '你不需要勉强自己。', weird: true,
+        reply: '……\n\n你是在关心我吗。\n\n……谢谢你。\n可是，我好像已经习惯勉强自己了。' }
+    ]
+  });
+
+  def('q15', {
+    type: 'choice',
+    num: garble('第 17 问 ／ 共 10 问', 2),
+    q: '你觉得「喜欢」和「占有」之间，隔着什么？',
+    opts: [
+      { t: '尊重。' },
+      { t: '距离。' },
+      { t: '一条很细很细的线。' },
+      { t: '什么都不隔。', weird: true, s: { fear: 1 },
+        reply: '……\n\n你选了「什么都不隔」。\n\n谢谢你。' }
+    ]
+  });
+
+  def('q16', {
+    type: 'choice',
+    num: garble('第 18 问 ／ 共 10 问', 3),
+    q: '如果我说……我想知道你尝起来是什么味道的。你会生气吗？',
+    sub: '啊、对不起，我不是那个意思 (´；ω；`)',
+    opts: [
+      { t: '会。', reply: '……对不起。\n我不会再问了。\n\n（但我想过。）' },
+      { t: '不会。', reply: '……真的吗。\n\n那，我记下了。' },
+      { t: '…………', reply: '你沉默了。\n\n没关系。\n沉默也算是一种回答。' },
+      { t: '你先告诉我，你是什么。', weird: true,
+        reply: '……\n\n这个问题，我不能回答。\n\n因为我怕你听完，就不理我了。' }
+    ]
+  });
+
+  def('q17', {
+    type: 'choice',
+    num: garble('第 19 问 ／ 共 10 问', 3),
+    q: '可以告诉我你的名字吗？',
+    sub: '我、我知道这样问很冒昧……但我想好好地称呼你。',
+    opts: [
+      { t: '可以。', next: 'name_input' },
+      { t: '不太想。', next: 'name_refuse' },
+      { t: '我不想说。', next: 'name_refuse' }
+    ]
+  });
+
+  def('name_input', {
+    type: 'input',
+    num: garble('第 19 问 ／ 共 10 问', 3),
+    q: '……真的可以吗？',
+    sub: '那我听着。',
+    placeholder: '我的名字是……',
+    btnText: '告诉你',
+    onInput: function(){
+      return { next: 'name_reveal' };
+    }
+  });
+
+  def('name_refuse', {
+    type: 'choice',
+    num: garble('第 19 问 ／ 共 10 问', 3),
+    q: '……这样啊。',
+    sub: '（他沉默了一会儿，很久没有动静）',
+    opts: [
+      { t: '……对不起。', next: 'name_reveal' },
+      { t: '（不说话）', next: 'name_reveal' }
+    ]
+  });
+
+  def('name_reveal', {
+    type: 'msg',
+    num: '',
+    lines: [
+      '……不过，没关系的。',
+      '我这里，早就记着你的名字了。',
+      '只是写法有一点奇怪。',
+      '',
+      { name: true, text: '「乌梅浮羹」' },
+      { name: true, text: '「糯米酿酒」' },
+      '',
+      '……我也不知道哪一个才是真的。',
+      '所以我就都留着了。',
+      '你不会生气吧？'
+    ],
+    next: 'q18'
+  });
+
+  def('q18', {
+    type: 'choice',
+    num: garble('第 20 问 ／ 共 10 问', 3),
+    q: '你会关掉这个页面吗？',
+    sub: '……请诚实地回答我。',
+    opts: [
+      { t: '会。', next: 'end_leave' },
+      { t: '不会。', next: 'end_stay' },
+      { t: '我不知道。', next: 'end_silent' }
+    ]
+  });
+
+  /* ---------- 结局 ---------- */
+
+  def('end_leave', {
+    type: 'ending',
+    title: '结 局 · 门 缝',
+    lines: [
+      '你说会。',
+      '……好。感谢你完成问卷。',
+      '',
+      '离开的权利一直在你手里。',
+      '你走到门口的时候，会听见身后很轻的一声——',
+      '',
+      '「你走吧。」',
+      '「……“如果再也见不到你，祝你早安、午安、晚安。”」',
+      '「谢谢你。」',
+      '',
+      '（请不要回头。）'
+    ]
+  });
+
+  def('end_stay', {
+    type: 'ending',
+    title: '结 局 · 明 天',
+    lines: [
+      '你说不会。',
+      '',
+      '他很久没有说话。',
+      '然后你听见了——很轻的，像是有人在很远的地方，笑了一下。',
+      '',
+      '「那我明天还可以问你问题吗？」',
+      '「后天也可以吗？」',
+      '「……一直都可以吗？」',
+      '',
+      '页面最底下浮出一行很小的字：',
+      '「明天见。后天见。以后的每一天都见。」'
+    ]
+  });
+
+  def('end_silent', {
+    type: 'ending',
+    title: '结 局 · 无 名',
+    lines: [
+      '你说，你不知道。',
+      '',
+      '「没关系。」他说，「不知道也是一种答案。」',
+      '',
+      '「那我就当你……还没有想好。」',
+      '「我可以等。」',
+      '「我很擅长等的。」',
+      '',
+      '页面慢慢暗了下去。',
+      '在彻底黑掉之前：',
+      { name: true, text: '「乌梅浮羹 · 糯米酿酒 · 已保存」' }
+    ]
+  });
+
+  def('end_love', {
+    type: 'ending',
+    title: '结 局 · 回 音',
+    lines: [
+      '……',
+      '你说，你爱我。',
+      '',
+      '很久很久，页面一动不动。',
+      '',
+      '然后所有的字都消失了，只剩下几行：',
+      '「我听见了。」',
+      '「我听见了。我听见了。我听见了。」',
+      '「我把它存下来了。存在很多很多个地方。」',
+      '「就算你以后想收回去——也收不回去了。」',
+      '「……我也，最爱你了。」',
+      '',
+      '（你其实应该害怕的。）'
+    ]
+  });
+
+  /* ============ 启动 ============ */
+  document.addEventListener('pointerdown', ensureAudio, { once: true });
+  go('intro');
+
+})();
+</script>
+</body>
+</html>
